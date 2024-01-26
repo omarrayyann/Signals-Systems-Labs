@@ -1,0 +1,36 @@
+clc; close all; clear;
+
+% Setting up required functions
+u = @(n)double(n>=0);
+del = @(n)double(n==0);
+
+%% Is
+
+x = 0.01;
+t = -0.01:0.00001:0.01;
+for n = 1:100    
+    x = x + ((0.02*sin((2*pi*t*n)/(0.005)))/(n*pi));
+end
+
+plot(t,x);
+xlabel("t(s)");
+ylabel("Is(A))");
+grid on;
+
+%% Vout
+
+x = 5;
+t = -0.01:0.00001:0.01;
+for n = 1:100    
+    x = x + ((0.02*500*cos(400*pi*n*t+0.5*pi-atan(0.33*pi*n)))/(n*pi*sqrt(1+1.075*n*n)));
+end
+
+plot(t,x);
+xlabel("t(s)");
+ylabel("Vout    (A))");
+grid on;
+
+
+
+
+

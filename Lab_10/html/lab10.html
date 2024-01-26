@@ -1,0 +1,884 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>lab10</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-11-16"><meta name="DC.source" content="lab10.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Question 1: Record Audio</a></li><li><a href="#3">Question 2: Load Audio</a></li><li><a href="#4">Question 3: Add Noise</a></li><li><a href="#5">Plotting Audios</a></li><li><a href="#6">Question 4: dtft Plots</a></li><li><a href="#7">Question 5: Design an appropriate elliptic LPF with the ellip function</a></li><li><a href="#8">Clean Signal</a></li><li><a href="#9">Noisy Signal</a></li><li><a href="#10">Filtered Signal</a></li><li><a href="#11">Question 6: Comment on your observations. Can you remove most of the noise from the corrupted</a></li><li><a href="#12">Question 7: Moving Average Filter</a></li><li><a href="#13">Plotting the frequency response of both filters</a></li><li><a href="#14">Clean Signal</a></li><li><a href="#15">Noisy Signal</a></li><li><a href="#16">LPF Filtered Signal</a></li><li><a href="#17">MA Filtered Signal</a></li><li><a href="#18">Extra: Applying both filters together</a></li><li><a href="#19">Question  8: Why did we specifically use LPFs for denoising and not other kinds of filters?</a></li></ul></div><pre class="codeinput">clc; close <span class="string">all</span>; clear;
+
+<span class="comment">% Setting up required functions</span>
+u = @(n)double(n&gt;=0);
+del = @(n)double(n==0);
+</pre><h2 id="2">Question 1: Record Audio</h2><pre class="codeinput"><span class="comment">% Done</span>
+</pre><h2 id="3">Question 2: Load Audio</h2><pre class="codeinput"><span class="comment">% Sampling Frequency</span>
+Fs = 44100;
+T = 1/Fs;
+<span class="comment">% Audio Data</span>
+x = load(<span class="string">'audio.txt'</span>);
+x = x(:,1);
+x = transpose(x);
+
+<span class="comment">% Testing Audio</span>
+soundsc(x,Fs);
+</pre><h2 id="4">Question 3: Add Noise</h2><pre class="codeinput">sigma = 100;
+noise = sigma*randn(1,length(x));
+x_noisy = x + noise;
+<span class="comment">% Testing Noisy</span>
+soundsc(x_noisy,Fs);
+</pre><h2 id="5">Plotting Audios</h2><pre class="codeinput">t = 0:T:(length(x)-1)*(T);
+figure;
+subplot(2,1,1);
+plot(t,x);
+xlabel(<span class="string">"t(seconds)"</span>);
+ylabel(<span class="string">"x(t)"</span>);
+title(<span class="string">"Clean Audio (unzoomed)"</span>);
+grid <span class="string">on</span>;
+subplot(2,1,2);
+plot(t,x_noisy);
+xlabel(<span class="string">"t(seconds)"</span>);
+ylabel(<span class="string">"x(t)"</span>);
+title(<span class="string">"Noisy Audio (unzoomed)"</span>);
+grid <span class="string">on</span>;
+
+figure;
+t = 0:T:(length(x)-1)*(T);
+subplot(2,1,1);
+plot(t,x);
+xlabel(<span class="string">"t(seconds)"</span>);
+ylabel(<span class="string">"x(t)"</span>);
+title(<span class="string">"Clean Audio (zoomed)"</span>);
+xlim([1.0,2.0]);
+grid <span class="string">on</span>;
+subplot(2,1,2);
+plot(t,x_noisy);
+xlabel(<span class="string">"t(seconds)"</span>);
+ylabel(<span class="string">"x(t)"</span>);
+title(<span class="string">"Noisy Audio (zoomed)"</span>);
+xlim([1.0,2.0]);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="lab10_01.png" alt=""> <img vspace="5" hspace="5" src="lab10_02.png" alt=""> <h2 id="6">Question 4: dtft Plots</h2><pre class="codeinput"><span class="comment">% Compute FFT of the clean signal</span>
+clean_fft = abs(fft(x));
+clean_fft = clean_fft(1:length(clean_fft)/2); <span class="comment">% Taking only the positive half</span>
+
+<span class="comment">% Compute FFT of the noisy signal</span>
+noisy_fft = abs(fft(x_noisy));
+noisy_fft = noisy_fft(1:length(noisy_fft)/2); <span class="comment">% Taking only the positive half</span>
+
+<span class="comment">% Define frequency axis for plotting</span>
+N = length(x);
+frequencies = (0:N/2 - 1) * Fs / N;
+
+<span class="comment">% Plotting FFT magnitudes</span>
+figure;
+subplot(2,1,1);
+plot(frequencies, clean_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+grid <span class="string">on</span>;
+title(<span class="string">'FFT Magnitude of Clean Signal'</span>);
+
+subplot(2,1,2);
+plot(frequencies, noisy_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+grid <span class="string">on</span>;
+title(<span class="string">'FFT Magnitude of Noisy Signal'</span>);
+
+<span class="comment">% Plotting FFT magnitudes zoomed</span>
+figure;
+subplot(2,1,1);
+plot(frequencies, clean_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+xlim([0,1500]);
+grid <span class="string">on</span>;
+title(<span class="string">'FFT Magnitude of Clean Signal (zoomed)'</span>);
+
+subplot(2,1,2);
+plot(frequencies, noisy_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+xlim([0,1500]);
+grid <span class="string">on</span>;
+title(<span class="string">'FFT Magnitude of Noisy Signal (zoomed)'</span>);
+
+<span class="comment">% Over what range do you see the dominant frequencies in the clean signal?</span>
+<span class="comment">% 0Hz to 700Hz</span>
+</pre><img vspace="5" hspace="5" src="lab10_03.png" alt=""> <img vspace="5" hspace="5" src="lab10_04.png" alt=""> <h2 id="7">Question 5: Design an appropriate elliptic LPF with the ellip function</h2><pre class="codeinput">pass_band_ripple = 0.3;
+stop_band_ripple = 0.5;
+cut_off_frequency = 300;
+
+[n, Wn] = ellipord(cut_off_frequency*2/Fs, (cut_off_frequency+500)*2/Fs, pass_band_ripple, stop_band_ripple);
+[b_ellip, a_ellip] = ellip(n, pass_band_ripple, stop_band_ripple, Wn);
+
+filtered_signal = filter(b_ellip, a_ellip, x_noisy);
+cleaned_frequencies = (0:N/2 - 1) * Fs / N;
+
+soundsc(filtered_signal, Fs);
+
+figure;
+subplot(3,1,1);
+plot(t, x);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'Clean Signal'</span>);
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+plot(t, x_noisy);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'Noisy Signal'</span>);
+grid <span class="string">on</span>;
+
+subplot(3,1,3);
+plot(t, filtered_signal);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'LPF Filtered Signal'</span>);
+grid <span class="string">on</span>;
+
+figure;
+subplot(3,1,1);
+plot(t, x);
+xlim([1.0,2.0]);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'Clean Signal (zoomed)'</span>);
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+plot(t, x_noisy);
+xlim([1.0,2.0]);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'Noisy Signal (zoomed)'</span>);
+grid <span class="string">on</span>;
+
+subplot(3,1,3);
+plot(t, filtered_signal);
+xlim([1.0,2.0]);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'LPF Filtered Signal (zoomed)'</span>);
+grid <span class="string">on</span>;
+
+
+filtered_fft = abs(fft(filtered_signal));
+frequencies = (0:N/2 - 1) * Fs / N;
+
+figure;
+subplot(3,1,1);
+plot(frequencies, clean_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Clean Signal Spectrum'</span>);
+xlim([0,1500]);
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+plot(frequencies, noisy_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Noisy Signal Spectrum'</span>);
+xlim([0,1500]);
+grid <span class="string">on</span>;
+
+
+subplot(3,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'LPF Filtered Signal Spectrum'</span>);
+xlim([0,1500]);
+grid <span class="string">on</span>;
+
+
+figure;
+subplot(3,1,1);
+plot(frequencies, clean_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Clean Signal Spectrum (zoomed)'</span>);
+xlim([0,600]);
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+plot(frequencies, noisy_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Noisy Signal Spectrum (zoomed)'</span>);
+xlim([0,600]);
+grid <span class="string">on</span>;
+
+
+subplot(3,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'LPF Filtered Signal Spectrum (zoomed)'</span>);
+xlim([0,600]);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="lab10_05.png" alt=""> <img vspace="5" hspace="5" src="lab10_06.png" alt=""> <img vspace="5" hspace="5" src="lab10_07.png" alt=""> <img vspace="5" hspace="5" src="lab10_08.png" alt=""> <h2 id="8">Clean Signal</h2><pre class="codeinput">soundsc(x, Fs);
+</pre><h2 id="9">Noisy Signal</h2><pre class="codeinput">soundsc(x_noisy, Fs);
+</pre><h2 id="10">Filtered Signal</h2><pre class="codeinput">soundsc(filtered_signal, Fs);
+</pre><h2 id="11">Question 6: Comment on your observations. Can you remove most of the noise from the corrupted</h2><p>signal? Is the noise reduction quality affected more by the size of passband ripple or by the size of the stopband ripple? What is one more important &#8212; that the passband be very close to 1 or that the stopband be very close to 0? You should try different filter designs and listen to the results to find out.</p><pre class="codeinput"><span class="comment">% Larger passband ripples seemed to allow more noise to leak into the passband resulting in a poor signal quality.</span>
+<span class="comment">% On the other hand, larger stopband ripples seem to not attenuate noise</span>
+<span class="comment">% frequencies as seen through experiemnting and checking the graphs</span>
+</pre><h2 id="12">Question 7: Moving Average Filter</h2><pre class="codeinput">r = 10;
+h_ma = ones(1, r) / r;
+filtered_signal_ma = filter(h_ma, 1, x_noisy);
+filtered_fft_ma = abs(fft(filtered_signal_ma));
+
+figure;
+subplot(4,1,1);
+plot(t, x);
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'Clean Signal'</span>);
+grid <span class="string">on</span>;
+
+subplot(4,1,2);
+plot(t, x_noisy);
+title(<span class="string">'Noisy Signal'</span>);
+grid <span class="string">on</span>;
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+
+subplot(4,1,3);
+plot(t, filtered_signal);
+title(<span class="string">'LPF Filtered Signal Spectrum'</span>);
+grid <span class="string">on</span>;
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+
+subplot(4,1,4);
+plot(t, filtered_signal_ma);
+title(<span class="string">'Moving Average Filtered Signal'</span>);
+grid <span class="string">on</span>;
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+
+
+figure;
+subplot(4,1,1);
+plot(t, x);
+title(<span class="string">'Clean Signal (zoomed)'</span>);
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+grid <span class="string">on</span>;
+xlim([1.0,2.0]);
+
+subplot(4,1,2);
+plot(t, x_noisy);
+title(<span class="string">'Noisy Signal (zoomed)'</span>);
+grid <span class="string">on</span>;
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+xlim([1.0,2.0]);
+
+subplot(4,1,3);
+plot(t, filtered_signal);
+title(<span class="string">'LPF Filtered Signal Spectrum (zoomed)'</span>);
+grid <span class="string">on</span>;
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+xlim([1.0,2.0]);
+
+subplot(4,1,4);
+plot(t, filtered_signal_ma);
+title(<span class="string">'Moving Average Filtered Signal (zoomed)'</span>);
+grid <span class="string">on</span>;
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+xlim([1.0,2.0]);
+
+figure;
+subplot(4,1,1);
+plot(frequencies, clean_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Clean Signal Spectrum'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+subplot(4,1,2);
+plot(frequencies, noisy_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Noisy Signal Spectrum'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+subplot(4,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'LPF Filtered Signal Spectrum'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+subplot(4,1,4);
+plot(frequencies,  filtered_fft_ma(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Moving Average Filtered Signal Spectrum'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+figure;
+subplot(4,1,1);
+plot(frequencies, clean_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Clean Signal Spectrum (zoomed)'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+subplot(4,1,2);
+plot(frequencies, noisy_fft);
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Noisy Signal Spectrum (zoomed)'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+subplot(4,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'LPF Filtered Signal Spectrum (zoomed)'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+subplot(4,1,4);
+plot(frequencies,  filtered_fft_ma(1:N/2));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Moving Average Filtered Signal Spectrum (zoomed)'</span>);
+xlim([0,700])
+grid <span class="string">on</span>;
+
+soundsc(filtered_signal_ma, Fs);
+</pre><img vspace="5" hspace="5" src="lab10_09.png" alt=""> <img vspace="5" hspace="5" src="lab10_10.png" alt=""> <img vspace="5" hspace="5" src="lab10_11.png" alt=""> <img vspace="5" hspace="5" src="lab10_12.png" alt=""> <h2 id="13">Plotting the frequency response of both filters</h2><pre class="codeinput">[H_ellip, w_ellip] = freqz(b_ellip, a_ellip, 1024, Fs);
+[H_ma, w_ma] = freqz(h_ma, 1, 1024, Fs);
+
+figure;
+subplot(2,1,1);
+plot(w_ellip, abs(H_ellip));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Elliptic Filter Frequency Response'</span>);
+grid <span class="string">on</span>;
+
+subplot(2,1,2);
+plot(w_ma, abs(H_ma));
+xlabel(<span class="string">'Frequency (Hz)'</span>);
+ylabel(<span class="string">'Magnitude'</span>);
+title(<span class="string">'Moving Average Filter Frequency Response'</span>);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="lab10_13.png" alt=""> <h2 id="14">Clean Signal</h2><pre class="codeinput">soundsc(x, Fs);
+</pre><h2 id="15">Noisy Signal</h2><pre class="codeinput">soundsc(x_noisy, Fs);
+</pre><h2 id="16">LPF Filtered Signal</h2><pre class="codeinput">soundsc(filtered_signal, Fs);
+</pre><h2 id="17">MA Filtered Signal</h2><pre class="codeinput">soundsc(filtered_signal_ma, Fs);
+</pre><h2 id="18">Extra: Applying both filters together</h2><pre class="codeinput">filtered_signal_both = filter(h_ma, 1, filtered_signal);
+
+soundsc(filtered_signal_both, Fs);
+</pre><h2 id="19">Question  8: Why did we specifically use LPFs for denoising and not other kinds of filters?</h2><p>Noise often occupy higher frequencies compared to the signal of interest, and low pass filters (LPFs) are designed to attenuate and eliminate high-frequency noise components while letting lower-frequency signal components pass through, resulting in a noise reduction without significantly affecting the essential components of the signal.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc; close all; clear;
+
+% Setting up required functions
+u = @(n)double(n>=0);
+del = @(n)double(n==0);
+
+%% Question 1: Record Audio
+
+% Done
+
+%% Question 2: Load Audio
+
+% Sampling Frequency
+Fs = 44100;
+T = 1/Fs;
+% Audio Data
+x = load('audio.txt');
+x = x(:,1);
+x = transpose(x);
+
+% Testing Audio
+soundsc(x,Fs);
+
+%% Question 3: Add Noise
+
+sigma = 100;
+noise = sigma*randn(1,length(x));
+x_noisy = x + noise;
+% Testing Noisy
+soundsc(x_noisy,Fs);
+
+%% Plotting Audios
+
+t = 0:T:(length(x)-1)*(T);
+figure;
+subplot(2,1,1);
+plot(t,x);
+xlabel("t(seconds)");
+ylabel("x(t)");
+title("Clean Audio (unzoomed)");
+grid on;
+subplot(2,1,2);
+plot(t,x_noisy);
+xlabel("t(seconds)");
+ylabel("x(t)");
+title("Noisy Audio (unzoomed)");
+grid on;
+
+figure;
+t = 0:T:(length(x)-1)*(T);
+subplot(2,1,1);
+plot(t,x);
+xlabel("t(seconds)");
+ylabel("x(t)");
+title("Clean Audio (zoomed)");
+xlim([1.0,2.0]);
+grid on;
+subplot(2,1,2);
+plot(t,x_noisy);
+xlabel("t(seconds)");
+ylabel("x(t)");
+title("Noisy Audio (zoomed)");
+xlim([1.0,2.0]);
+grid on;
+
+
+%% Question 4: dtft Plots
+
+% Compute FFT of the clean signal
+clean_fft = abs(fft(x));
+clean_fft = clean_fft(1:length(clean_fft)/2); % Taking only the positive half
+
+% Compute FFT of the noisy signal
+noisy_fft = abs(fft(x_noisy));
+noisy_fft = noisy_fft(1:length(noisy_fft)/2); % Taking only the positive half
+
+% Define frequency axis for plotting
+N = length(x);
+frequencies = (0:N/2 - 1) * Fs / N;
+
+% Plotting FFT magnitudes
+figure;
+subplot(2,1,1);
+plot(frequencies, clean_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+grid on;
+title('FFT Magnitude of Clean Signal');
+
+subplot(2,1,2);
+plot(frequencies, noisy_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+grid on;
+title('FFT Magnitude of Noisy Signal');
+
+% Plotting FFT magnitudes zoomed
+figure;
+subplot(2,1,1);
+plot(frequencies, clean_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+xlim([0,1500]);
+grid on;
+title('FFT Magnitude of Clean Signal (zoomed)');
+
+subplot(2,1,2);
+plot(frequencies, noisy_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+xlim([0,1500]);
+grid on;
+title('FFT Magnitude of Noisy Signal (zoomed)');
+
+% Over what range do you see the dominant frequencies in the clean signal?
+% 0Hz to 700Hz
+
+%% Question 5: Design an appropriate elliptic LPF with the ellip function
+
+pass_band_ripple = 0.3;
+stop_band_ripple = 0.5; 
+cut_off_frequency = 300;
+
+[n, Wn] = ellipord(cut_off_frequency*2/Fs, (cut_off_frequency+500)*2/Fs, pass_band_ripple, stop_band_ripple);
+[b_ellip, a_ellip] = ellip(n, pass_band_ripple, stop_band_ripple, Wn); 
+
+filtered_signal = filter(b_ellip, a_ellip, x_noisy);
+cleaned_frequencies = (0:N/2 - 1) * Fs / N;
+
+soundsc(filtered_signal, Fs);
+
+figure;
+subplot(3,1,1);
+plot(t, x);
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+title('Clean Signal');
+grid on;
+
+subplot(3,1,2);
+plot(t, x_noisy);
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+title('Noisy Signal');
+grid on;
+
+subplot(3,1,3);
+plot(t, filtered_signal);
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+title('LPF Filtered Signal');
+grid on;
+
+figure;
+subplot(3,1,1);
+plot(t, x);
+xlim([1.0,2.0]);
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+title('Clean Signal (zoomed)');
+grid on;
+
+subplot(3,1,2);
+plot(t, x_noisy);
+xlim([1.0,2.0]);
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+title('Noisy Signal (zoomed)');
+grid on;
+
+subplot(3,1,3);
+plot(t, filtered_signal);
+xlim([1.0,2.0]);
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+title('LPF Filtered Signal (zoomed)');
+grid on;
+
+
+filtered_fft = abs(fft(filtered_signal));
+frequencies = (0:N/2 - 1) * Fs / N;
+
+figure;
+subplot(3,1,1);
+plot(frequencies, clean_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Clean Signal Spectrum');
+xlim([0,1500]);
+grid on;
+
+subplot(3,1,2);
+plot(frequencies, noisy_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Noisy Signal Spectrum');
+xlim([0,1500]);
+grid on;
+
+
+subplot(3,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('LPF Filtered Signal Spectrum');
+xlim([0,1500]);
+grid on;
+
+
+figure;
+subplot(3,1,1);
+plot(frequencies, clean_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Clean Signal Spectrum (zoomed)');
+xlim([0,600]);
+grid on;
+
+subplot(3,1,2);
+plot(frequencies, noisy_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Noisy Signal Spectrum (zoomed)');
+xlim([0,600]);
+grid on;
+
+
+subplot(3,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('LPF Filtered Signal Spectrum (zoomed)');
+xlim([0,600]);
+grid on;
+
+%% Clean Signal
+soundsc(x, Fs);
+%% Noisy Signal
+soundsc(x_noisy, Fs);
+%% Filtered Signal
+soundsc(filtered_signal, Fs);
+
+%% Question 6: Comment on your observations. Can you remove most of the noise from the corrupted
+% signal? Is the noise reduction quality affected more by the size of passband ripple or
+% by the size of the stopband ripple? What is one more important — that the passband be
+% very close to 1 or that the stopband be very close to 0? You should try different filter
+% designs and listen to the results to find out.
+
+% Larger passband ripples seemed to allow more noise to leak into the passband resulting in a poor signal quality.
+% On the other hand, larger stopband ripples seem to not attenuate noise
+% frequencies as seen through experiemnting and checking the graphs
+%% Question 7: Moving Average Filter
+
+r = 10; 
+h_ma = ones(1, r) / r;
+filtered_signal_ma = filter(h_ma, 1, x_noisy); 
+filtered_fft_ma = abs(fft(filtered_signal_ma));
+
+figure;
+subplot(4,1,1);
+plot(t, x);
+xlabel('time (s)');
+ylabel('Amplitude');
+title('Clean Signal');
+grid on;
+
+subplot(4,1,2);
+plot(t, x_noisy);
+title('Noisy Signal');
+grid on;
+xlabel('time (s)');
+ylabel('Amplitude');
+
+subplot(4,1,3);
+plot(t, filtered_signal);
+title('LPF Filtered Signal Spectrum');
+grid on;
+xlabel('time (s)');
+ylabel('Amplitude');
+
+subplot(4,1,4);
+plot(t, filtered_signal_ma);
+title('Moving Average Filtered Signal');
+grid on;
+xlabel('time (s)');
+ylabel('Amplitude');
+
+
+figure;
+subplot(4,1,1);
+plot(t, x);
+title('Clean Signal (zoomed)');
+xlabel('time (s)');
+ylabel('Amplitude');
+grid on;
+xlim([1.0,2.0]);
+
+subplot(4,1,2);
+plot(t, x_noisy);
+title('Noisy Signal (zoomed)');
+grid on;
+xlabel('time (s)');
+ylabel('Amplitude');
+xlim([1.0,2.0]);
+
+subplot(4,1,3);
+plot(t, filtered_signal);
+title('LPF Filtered Signal Spectrum (zoomed)');
+grid on;
+xlabel('time (s)');
+ylabel('Amplitude');
+xlim([1.0,2.0]);
+
+subplot(4,1,4);
+plot(t, filtered_signal_ma);
+title('Moving Average Filtered Signal (zoomed)');
+grid on;
+xlabel('time (s)');
+ylabel('Amplitude');
+xlim([1.0,2.0]);
+
+figure;
+subplot(4,1,1);
+plot(frequencies, clean_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Clean Signal Spectrum');
+xlim([0,700])
+grid on;
+
+subplot(4,1,2);
+plot(frequencies, noisy_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Noisy Signal Spectrum');
+xlim([0,700])
+grid on;
+
+subplot(4,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('LPF Filtered Signal Spectrum');
+xlim([0,700])
+grid on;
+
+subplot(4,1,4);
+plot(frequencies,  filtered_fft_ma(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Moving Average Filtered Signal Spectrum');
+xlim([0,700])
+grid on;
+
+figure;
+subplot(4,1,1);
+plot(frequencies, clean_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Clean Signal Spectrum (zoomed)');
+xlim([0,700])
+grid on;
+
+subplot(4,1,2);
+plot(frequencies, noisy_fft);
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Noisy Signal Spectrum (zoomed)');
+xlim([0,700])
+grid on;
+
+subplot(4,1,3);
+plot(frequencies, filtered_fft(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('LPF Filtered Signal Spectrum (zoomed)');
+xlim([0,700])
+grid on;
+
+subplot(4,1,4);
+plot(frequencies,  filtered_fft_ma(1:N/2));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Moving Average Filtered Signal Spectrum (zoomed)');
+xlim([0,700])
+grid on;
+
+soundsc(filtered_signal_ma, Fs);
+
+%% Plotting the frequency response of both filters
+
+[H_ellip, w_ellip] = freqz(b_ellip, a_ellip, 1024, Fs);
+[H_ma, w_ma] = freqz(h_ma, 1, 1024, Fs);
+
+figure;
+subplot(2,1,1);
+plot(w_ellip, abs(H_ellip));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Elliptic Filter Frequency Response');
+grid on;
+
+subplot(2,1,2);
+plot(w_ma, abs(H_ma));
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+title('Moving Average Filter Frequency Response');
+grid on;
+
+
+%% Clean Signal
+soundsc(x, Fs);
+%% Noisy Signal
+soundsc(x_noisy, Fs);
+%% LPF Filtered Signal
+soundsc(filtered_signal, Fs);
+%% MA Filtered Signal
+soundsc(filtered_signal_ma, Fs);
+
+%% Extra: Applying both filters together
+
+filtered_signal_both = filter(h_ma, 1, filtered_signal); 
+
+soundsc(filtered_signal_both, Fs);
+
+%% Question  8: Why did we specifically use LPFs for denoising and not other kinds of filters?
+% Noise often occupy higher frequencies compared to the signal of interest, and low pass filters (LPFs) 
+% are designed to attenuate and eliminate high-frequency noise components while letting lower-frequency 
+% signal components pass through, resulting in a noise reduction without significantly affecting the 
+% essential components of the signal.
+
+##### SOURCE END #####
+--></body></html>

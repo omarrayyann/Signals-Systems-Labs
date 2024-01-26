@@ -1,0 +1,56 @@
+clc; clear; close all; 
+set(0,'defaultTextInterpreter','latex');
+
+%% Question 3: The conv Command
+
+% Setting up functions
+n = 0:20;  
+f = @(n) (n >= 0) - (n >= 4); 
+g = @(n) n.*(n >= 0) - 2*(n-4).*(n >= 4) + (n-8).*(n >= 8);  
+
+
+% f*f conv
+conv_ff = conv(f(n), f(n));
+length_conv_ff = 0:length(conv_ff) - 1;
+figure; stem(length_conv_ff, conv_ff);
+title('f(n) * f(n)');
+xlabel('n');
+ylabel('f(n) * f(n)');
+grid on;
+
+% f*f*f conv
+conv_fff = conv(conv_ff, f(n));
+length_conv_fff = 0:length(conv_fff) - 1;
+figure; stem(length_conv_fff, conv_fff);
+title('f(n) * f(n) * f(n)');
+xlabel('n');
+ylabel('f(n) * f(n) * f(n)');
+grid on;
+
+% f*g conv
+conv_fg = conv(f(n), g(n));
+length_conv_fg = 0:length(conv_fg) - 1;
+figure; stem(length_conv_fg, conv_fg);
+title('f(n) * g(n)');
+xlabel('n');
+ylabel('f(n) * g(n)');
+grid on;
+
+% gq*impulse conv
+impulse = [1]
+conv_fi = conv(g(n), impulse);
+length_conv_fi = 0:length(conv_fi) - 1;
+figure; stem(length_conv_fi, conv_fi);
+title('g(n)*impulse(n)');
+xlabel('n');
+ylabel('g(n)*impulse(n)');
+grid on;
+
+% g*g conv
+conv_gg = conv(g(n), g(n));
+length_conv_gg = 0:length(conv_gg) - 1;
+figure; stem(length_conv_gg, conv_gg);
+title('g(n)*g(n)');
+xlabel('n');
+ylabel('g(n)*g(n)');
+grid on;

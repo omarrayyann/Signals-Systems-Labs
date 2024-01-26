@@ -1,0 +1,880 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>lab6</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-10-19"><meta name="DC.source" content="lab6.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Part 1: Plot each of the following Fourier transform pairs</a></li><li><a href="#3">Time Shifting</a></li><li><a href="#4">Time Scaling</a></li><li><a href="#5">Pick a different Fourier transform pair and do the previous time scaling demonstration</a></li><li><a href="#6">for it as well.</a></li></ul></div><pre class="codeinput">clc; close <span class="string">all</span>; clear;
+
+<span class="comment">% Setting up required functions</span>
+u = @(n)double(n&gt;=0);
+del = @(n)double(n==0);
+</pre><h2 id="2">Part 1: Plot each of the following Fourier transform pairs</h2><pre class="codeinput">t = linspace(0,10,500);
+w = linspace(-10,10,500);
+alpha = 1;
+sigma = 1;
+t0 = 1;
+
+<span class="comment">% y = exp(-alpha*t).*u(t);</span>
+
+figure;
+subplot(3,1,1);
+y = exp(-alpha*t).*u(t);
+plot(t,y)
+title(<span class="string">"e^{-t}u(t)"</span>)
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"e^{-t}u(t)"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+z = 1./(alpha+w*1i);
+plot(w,abs(z))
+title(<span class="string">"Fourier Transformation Magnitude"</span>)
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|H(w)|"</span>);
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+subplot(3,1,3);
+plot(w,angle(z));
+title(<span class="string">"Fourier Transformation Phase Angle"</span>)
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"Phase(H(w))"</span>)
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+<span class="comment">% y = t*exp(-alpha*t).*u(t);</span>
+
+figure;
+y = exp(-alpha*t).*u(t).*t;
+z = (1./(alpha+w*1i)).^2;
+
+subplot(3,1,1);
+plot(t,y)
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"e^{-t}u(t)"</span>)
+title(<span class="string">"e^{-t}u(t)"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|H(w)|"</span>);
+title(<span class="string">"Fourier Transformation Magnitude"</span>)
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"Phase(H(w))"</span>)
+title(<span class="string">"Fourier Transformation Phase Angle"</span>)
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+<span class="comment">% y = exp((-t.^2)/2*sigma^2)./sqrt(2*pi*sigma^2);</span>
+
+figure;
+t = linspace(-10,10,500);
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+z = exp(-(sigma^2)*(w.^2)/2);
+
+subplot(3,1,1);
+plot(t,y)
+xlabel(<span class="string">"t"</span>);
+title(<span class="string">"exp^{-t^2/2sigma^2}/sqrt(2*pi*sigma^2)"</span>)
+ylabel(<span class="string">"exp^{-t^2/2sigma^2}/sqrt(2*pi*sigma^2)"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|H(w)|"</span>);
+title(<span class="string">"Fourier Transformation Magnitude"</span>)
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"Phase(H(w))"</span>)
+title(<span class="string">"Fourier Transformation Phase Angle"</span>)
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+<span class="comment">% y = delta(t-t0)</span>
+
+figure;
+z = exp(-1i.*w*t0);
+
+subplot(2,1,1);
+plot(w,abs(z));
+title(<span class="string">"delta(t-t0)"</span>);
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|H(w)|"</span>);
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+subplot(2,1,2);
+plot(w,angle(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"Phase(H(w))"</span>)
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+<span class="comment">% y = d/dt</span>
+
+figure;
+y = ones(size(t));
+z = i*w;
+
+subplot(3,1,1);
+plot(t,y)
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"d/dt"</span>)
+title(<span class="string">"d/dt"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,1,2);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|H(w)|"</span>);
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"Phase(H(w))"</span>)
+xlim([-10,10]);
+grid <span class="string">on</span>;
+
+<span class="comment">% Plot the Fourier transform of the first pair above but this time, plot the real and imaginary</span>
+<span class="comment">% parts as functions of frequency instead of the magnitude and phase.</span>
+
+figure;
+z = 1./(alpha+w*1i);
+t = linspace(0,10,500);
+figure;
+subplot(2,1,1);
+y = exp(-alpha*t).*u(t);
+plot(t,y)
+title(<span class="string">"e^{-t}u(t)"</span>)
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"e^{-t}u(t)"</span>)
+grid <span class="string">on</span>;
+subplot(2,1,2);
+plot(t,real(z));
+hold <span class="string">on</span>;
+plot(t,imag(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"real and imaginary value of  of z"</span>)
+ylabel(<span class="string">"real and imag of z"</span>)
+legend([<span class="string">"real"</span>,<span class="string">"imaginary"</span>])
+grid <span class="string">on</span>;
+
+<span class="comment">% Plot the Fourier transform of the second pair above but this time, plot the magnitude in</span>
+<span class="comment">% dB, i.e., plot 20log10(|H(&#969;)|).</span>
+
+
+<span class="comment">% y = t*exp(-alpha*t).*u(t);</span>
+
+figure;
+t = linspace(0,10,500);
+y = exp(-alpha*t).*u(t).*t;
+z = (1./(alpha+w*1i)).^2;
+
+subplot(2,1,1);
+plot(t,y)
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"e^{-t}u(t)"</span>)
+grid <span class="string">on</span>;
+
+subplot(2,1,2);
+plot(w,20*log10(abs(z)));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"20*log10(abs(z))) (dB)"</span>);
+xlim([-10,10]);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="lab6_01.png" alt=""> <img vspace="5" hspace="5" src="lab6_02.png" alt=""> <img vspace="5" hspace="5" src="lab6_03.png" alt=""> <img vspace="5" hspace="5" src="lab6_04.png" alt=""> <img vspace="5" hspace="5" src="lab6_05.png" alt=""> <img vspace="5" hspace="5" src="lab6_06.png" alt=""> <img vspace="5" hspace="5" src="lab6_07.png" alt=""> <img vspace="5" hspace="5" src="lab6_08.png" alt=""> <h2 id="3">Time Shifting</h2><pre class="codeinput">t = linspace(-15,15,500);
+
+<span class="comment">% u(t)-u(t-10)</span>
+
+figure;
+subplot(3,1,1);
+h = u(t)-u(t-10);
+plot(t,h);
+ylim([0,2])
+xlim([-1,11])
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"h(t)"</span>)
+grid <span class="string">on</span>;
+subplot(3,1,2);
+z = (1-exp(-10*w*i))./(i*w);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"abs(fourier)"</span>)
+grid <span class="string">on</span>;
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel(<span class="string">"angle(fourier)"</span>);
+ylabel(<span class="string">"angle(fourier)"</span>)
+grid <span class="string">on</span>;
+
+<span class="comment">% u(t+5)-u(t-5)</span>
+
+figure;
+subplot(3,1,1);
+h = u(t+5)-u(t-6);
+plot(t,h);
+ylim([0,2])
+xlim([-11,11])
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"h(t)"</span>)
+grid <span class="string">on</span>;
+subplot(3,1,2);
+z = (exp(5*w*i)-exp(-5*w*i))./(i*w);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"abs(fourier)"</span>)
+grid <span class="string">on</span>;
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel(<span class="string">"angle(fourier)"</span>);
+ylabel(<span class="string">"angle(fourier)"</span>)
+grid <span class="string">on</span>;
+
+<span class="comment">% Comment on your observations comparing these two signals and their Fourier transforms</span>
+<span class="comment">% TODO</span>
+</pre><img vspace="5" hspace="5" src="lab6_09.png" alt=""> <img vspace="5" hspace="5" src="lab6_10.png" alt=""> <h2 id="4">Time Scaling</h2><pre class="codeinput">figure;
+y = exp((-t.^2)/2*sigma^2)./sqrt(2*pi*sigma^2);
+z = exp(-(sigma^2)*(w.^2)/2);
+w = linspace(-10,10,500);
+t = linspace(-10,10,500);
+
+<span class="keyword">for</span> sigma = 0:0.1:3
+    subplot(2,1,1);
+    y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+    plot(t,y);
+    xlabel(<span class="string">"t"</span>);
+    ylabel(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+    title(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+    grid <span class="string">on</span>;
+    subplot(2,1,2);
+    z = exp(-(sigma^2)*(w.^2)/2);
+    plot(w,abs(z));
+    xlabel(<span class="string">"w"</span>);
+    ylabel(<span class="string">"|Fourier of Gaussian| at sigma = "</span> + num2str(sigma));
+    title(<span class="string">"|Fourier of Gaussian| at sigma = "</span> + num2str(sigma));
+    grid <span class="string">on</span>;
+    drawnow;
+    pause(0.1);
+<span class="keyword">end</span>
+
+figure;
+
+subplot(3,2,1);
+sigma = 1;
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+plot(t,y);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+title(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+grid <span class="string">on</span>;
+subplot(3,2,2);
+z = exp(-(sigma^2)*(w.^2)/2);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|Fourier of Gaussian|"</span>)
+title(<span class="string">"|Fourier of Gaussian|"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,2,3);
+sigma = 2;
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+plot(t,y);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+title(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+grid <span class="string">on</span>;
+subplot(3,2,4);
+z = exp(-(sigma^2)*(w.^2)/2);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|Fourier of Gaussian|"</span>)
+title(<span class="string">"|Fourier of Gaussian|"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,2,5);
+sigma = 3;
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+plot(t,y);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+title(<span class="string">"Gaussian(t) at sigma = "</span> + num2str(sigma));
+grid <span class="string">on</span>;
+subplot(3,2,6);
+z = exp(-(sigma^2)*(w.^2)/2);
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|Fourier of Gaussian|"</span>)
+title(<span class="string">"|Fourier of Gaussian|"</span>)
+grid <span class="string">on</span>;
+
+<span class="comment">% Comment on your observations. Is there a certain trend you see when increasing &#963;?</span>
+<span class="comment">% TO-DO</span>
+</pre><img vspace="5" hspace="5" src="lab6_11.png" alt=""> <img vspace="5" hspace="5" src="lab6_12.png" alt=""> <img vspace="5" hspace="5" src="lab6_13.png" alt=""> <h2 id="5">Pick a different Fourier transform pair and do the previous time scaling demonstration</h2><h2 id="6">for it as well.</h2><pre class="codeinput"><span class="comment">% y = t*exp(-alpha*t).*u(t);</span>
+
+figure;
+y = exp(-alpha*t).*u(t).*t;
+z = (1./(alpha+w*1i)).^2;
+
+w = linspace(-10,10,500);
+t = linspace(0,10,500);
+
+<span class="keyword">for</span> alpha = 0:0.1:3
+    subplot(2,1,1);
+    y = exp(-alpha*t).*u(t).*t;
+    plot(t,y);
+    xlabel(<span class="string">"t"</span>);
+    ylabel(<span class="string">"exp(-alpha*t).*u(t).*t; at alpha = "</span> + num2str(alpha));
+    title(<span class="string">"exp(-alpha*t).*u(t).*t; at alpha = "</span> + num2str(alpha));
+    grid <span class="string">on</span>;
+    subplot(2,1,2);
+    z = (1./(alpha+w*1i)).^2;
+    plot(w,abs(z));
+    xlabel(<span class="string">"w"</span>);
+    ylabel(<span class="string">"|Fourier| at alpha = "</span> + num2str(alpha));
+    title(<span class="string">"|Fourier| at alpha = "</span> + num2str(alpha));
+    grid <span class="string">on</span>;
+    drawnow;
+    pause(0.1);
+<span class="keyword">end</span>
+
+figure;
+
+subplot(3,2,1);
+alpha = 0.5;
+y = exp(-alpha*t).*u(t).*t;
+plot(t,y);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"exp(-alpha*t).*u(t).*t; at alpha = "</span> + num2str(alpha));
+title(<span class="string">"exp(-alpha*t).*u(t).*t; at alpha = "</span> + num2str(alpha));
+grid <span class="string">on</span>;
+subplot(3,2,2);
+z = (1./(alpha+w*1i)).^2;
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|Fourier|"</span>)
+title(<span class="string">"|Fourier|"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,2,3);
+alpha = 2;
+y = exp(-alpha*t).*u(t).*t;
+plot(t,y);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"exp(-alpha*t).*u(t).*t; at alpha = "</span> + num2str(alpha));
+title(<span class="string">"exp(-alpha*t).*u(t).*t; at alpha = "</span> + num2str(alpha));
+grid <span class="string">on</span>;
+subplot(3,2,4);
+z = (1./(alpha+w*1i)).^2;
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|Fourier|"</span>)
+title(<span class="string">"|Fourier|"</span>)
+grid <span class="string">on</span>;
+
+subplot(3,2,5);
+alpha = 2.5;
+y = exp(-alpha*t).*u(t).*t;
+plot(t,y);
+xlabel(<span class="string">"t"</span>);
+ylabel(<span class="string">"exp(-alpha*t).*u(t).*t; at alpha = "</span> + num2str(alpha));
+title(<span class="string">"exp(-alpha*t).*u(t).*t at alpha = "</span> + num2str(alpha));
+grid <span class="string">on</span>;
+subplot(3,2,6);
+z = (1./(alpha+w*1i)).^2;
+plot(w,abs(z));
+xlabel(<span class="string">"w"</span>);
+ylabel(<span class="string">"|Fourier|"</span>)
+title(<span class="string">"|Fourier|"</span>)
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="lab6_14.png" alt=""> <img vspace="5" hspace="5" src="lab6_15.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc; close all; clear;
+
+% Setting up required functions
+u = @(n)double(n>=0);
+del = @(n)double(n==0);
+
+%% Part 1: Plot each of the following Fourier transform pairs
+
+t = linspace(0,10,500);
+w = linspace(-10,10,500);
+alpha = 1;
+sigma = 1;
+t0 = 1;
+
+% y = exp(-alpha*t).*u(t);
+
+figure;
+subplot(3,1,1);
+y = exp(-alpha*t).*u(t);
+plot(t,y)
+title("e^{-t}u(t)")
+xlabel("t");
+ylabel("e^{-t}u(t)")
+grid on;
+
+subplot(3,1,2);
+z = 1./(alpha+w*1i);
+plot(w,abs(z))
+title("Fourier Transformation Magnitude")
+xlabel("w");
+ylabel("|H(w)|");
+xlim([-10,10]);
+grid on;
+
+subplot(3,1,3);
+plot(w,angle(z));
+title("Fourier Transformation Phase Angle")
+xlabel("w");
+ylabel("Phase(H(w))")
+xlim([-10,10]);
+grid on;
+
+% y = t*exp(-alpha*t).*u(t);
+
+figure;
+y = exp(-alpha*t).*u(t).*t;
+z = (1./(alpha+w*1i)).^2;
+
+subplot(3,1,1);
+plot(t,y)
+xlabel("t");
+ylabel("e^{-t}u(t)")
+title("e^{-t}u(t)")
+grid on;
+
+subplot(3,1,2);
+plot(w,abs(z));
+xlabel("w");
+ylabel("|H(w)|");
+title("Fourier Transformation Magnitude")
+xlim([-10,10]);
+grid on;
+
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel("w");
+ylabel("Phase(H(w))")
+title("Fourier Transformation Phase Angle")
+xlim([-10,10]);
+grid on;
+
+% y = exp((-t.^2)/2*sigma^2)./sqrt(2*pi*sigma^2);
+
+figure;
+t = linspace(-10,10,500);
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+z = exp(-(sigma^2)*(w.^2)/2);
+
+subplot(3,1,1);
+plot(t,y)
+xlabel("t");
+title("exp^{-t^2/2sigma^2}/sqrt(2*pi*sigma^2)")
+ylabel("exp^{-t^2/2sigma^2}/sqrt(2*pi*sigma^2)")
+grid on;
+
+subplot(3,1,2);
+plot(w,abs(z));
+xlabel("w");
+ylabel("|H(w)|");
+title("Fourier Transformation Magnitude")
+xlim([-10,10]);
+grid on;
+
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel("w");
+ylabel("Phase(H(w))")
+title("Fourier Transformation Phase Angle")
+xlim([-10,10]);
+grid on;
+
+% y = delta(t-t0)
+
+figure;
+z = exp(-1i.*w*t0);
+
+subplot(2,1,1);
+plot(w,abs(z));
+title("delta(t-t0)");
+xlabel("w");
+ylabel("|H(w)|");
+xlim([-10,10]);
+grid on;
+
+subplot(2,1,2);
+plot(w,angle(z));
+xlabel("w");
+ylabel("Phase(H(w))")
+xlim([-10,10]);
+grid on;
+
+% y = d/dt
+
+figure;
+y = ones(size(t));
+z = i*w;
+
+subplot(3,1,1);
+plot(t,y)
+xlabel("t");
+ylabel("d/dt")
+title("d/dt")
+grid on;
+
+subplot(3,1,2);
+plot(w,abs(z));
+xlabel("w");
+ylabel("|H(w)|");
+xlim([-10,10]);
+grid on;
+
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel("w");
+ylabel("Phase(H(w))")
+xlim([-10,10]);
+grid on;
+
+% Plot the Fourier transform of the first pair above but this time, plot the real and imaginary
+% parts as functions of frequency instead of the magnitude and phase.
+
+figure;
+z = 1./(alpha+w*1i);
+t = linspace(0,10,500);
+figure;
+subplot(2,1,1);
+y = exp(-alpha*t).*u(t);
+plot(t,y)
+title("e^{-t}u(t)")
+xlabel("t");
+ylabel("e^{-t}u(t)")
+grid on;
+subplot(2,1,2);
+plot(t,real(z));
+hold on;
+plot(t,imag(z));
+xlabel("w");
+ylabel("real and imaginary value of  of z")
+ylabel("real and imag of z")
+legend(["real","imaginary"])
+grid on;
+
+% Plot the Fourier transform of the second pair above but this time, plot the magnitude in
+% dB, i.e., plot 20log10(|H(ω)|).
+
+
+% y = t*exp(-alpha*t).*u(t);
+
+figure;
+t = linspace(0,10,500);
+y = exp(-alpha*t).*u(t).*t;
+z = (1./(alpha+w*1i)).^2;
+
+subplot(2,1,1);
+plot(t,y)
+xlabel("t");
+ylabel("e^{-t}u(t)")
+grid on;
+
+subplot(2,1,2);
+plot(w,20*log10(abs(z)));
+xlabel("w");
+ylabel("20*log10(abs(z))) (dB)");
+xlim([-10,10]);
+grid on;
+
+
+
+%% Time Shifting
+
+t = linspace(-15,15,500);
+
+% u(t)-u(t-10)
+
+figure;
+subplot(3,1,1);
+h = u(t)-u(t-10);
+plot(t,h);
+ylim([0,2])
+xlim([-1,11])
+xlabel("t");
+ylabel("h(t)")
+grid on;
+subplot(3,1,2);
+z = (1-exp(-10*w*i))./(i*w);
+plot(w,abs(z));
+xlabel("w");
+ylabel("abs(fourier)")
+grid on;
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel("angle(fourier)");
+ylabel("angle(fourier)")
+grid on;
+
+% u(t+5)-u(t-5)
+
+figure;
+subplot(3,1,1);
+h = u(t+5)-u(t-6);
+plot(t,h);
+ylim([0,2])
+xlim([-11,11])
+xlabel("t");
+ylabel("h(t)")
+grid on;
+subplot(3,1,2);
+z = (exp(5*w*i)-exp(-5*w*i))./(i*w);
+plot(w,abs(z));
+xlabel("w");
+ylabel("abs(fourier)")
+grid on;
+subplot(3,1,3);
+plot(w,angle(z));
+xlabel("angle(fourier)");
+ylabel("angle(fourier)")
+grid on;
+
+% Comment on your observations comparing these two signals and their Fourier transforms
+% TODO
+
+%% Time Scaling
+
+figure;
+y = exp((-t.^2)/2*sigma^2)./sqrt(2*pi*sigma^2);
+z = exp(-(sigma^2)*(w.^2)/2);
+w = linspace(-10,10,500);
+t = linspace(-10,10,500);
+
+for sigma = 0:0.1:3
+    subplot(2,1,1);
+    y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+    plot(t,y);
+    xlabel("t");
+    ylabel("Gaussian(t) at sigma = " + num2str(sigma));
+    title("Gaussian(t) at sigma = " + num2str(sigma));
+    grid on;
+    subplot(2,1,2);
+    z = exp(-(sigma^2)*(w.^2)/2);
+    plot(w,abs(z));
+    xlabel("w");
+    ylabel("|Fourier of Gaussian| at sigma = " + num2str(sigma));
+    title("|Fourier of Gaussian| at sigma = " + num2str(sigma));
+    grid on;
+    drawnow;
+    pause(0.1);
+end
+
+figure;
+
+subplot(3,2,1);
+sigma = 1;
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+plot(t,y);
+xlabel("t");
+ylabel("Gaussian(t) at sigma = " + num2str(sigma));
+title("Gaussian(t) at sigma = " + num2str(sigma));
+grid on;
+subplot(3,2,2);
+z = exp(-(sigma^2)*(w.^2)/2);
+plot(w,abs(z));
+xlabel("w");
+ylabel("|Fourier of Gaussian|")
+title("|Fourier of Gaussian|")
+grid on;
+
+subplot(3,2,3);
+sigma = 2;
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+plot(t,y);
+xlabel("t");
+ylabel("Gaussian(t) at sigma = " + num2str(sigma));
+title("Gaussian(t) at sigma = " + num2str(sigma));
+grid on;
+subplot(3,2,4);
+z = exp(-(sigma^2)*(w.^2)/2);
+plot(w,abs(z));
+xlabel("w");
+ylabel("|Fourier of Gaussian|")
+title("|Fourier of Gaussian|")
+grid on;
+
+subplot(3,2,5);
+sigma = 3;
+y = exp((-t.^2)/(2*sigma^2))./sqrt(2*pi*sigma^2);
+plot(t,y);
+xlabel("t");
+ylabel("Gaussian(t) at sigma = " + num2str(sigma));
+title("Gaussian(t) at sigma = " + num2str(sigma));
+grid on;
+subplot(3,2,6);
+z = exp(-(sigma^2)*(w.^2)/2);
+plot(w,abs(z));
+xlabel("w");
+ylabel("|Fourier of Gaussian|")
+title("|Fourier of Gaussian|")
+grid on;
+
+% Comment on your observations. Is there a certain trend you see when increasing σ?
+% TO-DO
+
+%% Pick a different Fourier transform pair and do the previous time scaling demonstration
+%% for it as well.
+
+% y = t*exp(-alpha*t).*u(t);
+
+figure;
+y = exp(-alpha*t).*u(t).*t;
+z = (1./(alpha+w*1i)).^2;
+
+w = linspace(-10,10,500);
+t = linspace(0,10,500);
+
+for alpha = 0:0.1:3
+    subplot(2,1,1);
+    y = exp(-alpha*t).*u(t).*t;
+    plot(t,y);
+    xlabel("t");
+    ylabel("exp(-alpha*t).*u(t).*t; at alpha = " + num2str(alpha));
+    title("exp(-alpha*t).*u(t).*t; at alpha = " + num2str(alpha));
+    grid on;
+    subplot(2,1,2);
+    z = (1./(alpha+w*1i)).^2;
+    plot(w,abs(z));
+    xlabel("w");
+    ylabel("|Fourier| at alpha = " + num2str(alpha));
+    title("|Fourier| at alpha = " + num2str(alpha));
+    grid on;
+    drawnow;
+    pause(0.1);
+end
+
+figure;
+
+subplot(3,2,1);
+alpha = 0.5;
+y = exp(-alpha*t).*u(t).*t;
+plot(t,y);
+xlabel("t");
+ylabel("exp(-alpha*t).*u(t).*t; at alpha = " + num2str(alpha));
+title("exp(-alpha*t).*u(t).*t; at alpha = " + num2str(alpha));
+grid on;
+subplot(3,2,2);
+z = (1./(alpha+w*1i)).^2;
+plot(w,abs(z));
+xlabel("w");
+ylabel("|Fourier|")
+title("|Fourier|")
+grid on;
+
+subplot(3,2,3);
+alpha = 2;
+y = exp(-alpha*t).*u(t).*t;
+plot(t,y);
+xlabel("t");
+ylabel("exp(-alpha*t).*u(t).*t; at alpha = " + num2str(alpha));
+title("exp(-alpha*t).*u(t).*t; at alpha = " + num2str(alpha));
+grid on;
+subplot(3,2,4);
+z = (1./(alpha+w*1i)).^2;
+plot(w,abs(z));
+xlabel("w");
+ylabel("|Fourier|")
+title("|Fourier|")
+grid on;
+
+subplot(3,2,5);
+alpha = 2.5;
+y = exp(-alpha*t).*u(t).*t;
+plot(t,y);
+xlabel("t");
+ylabel("exp(-alpha*t).*u(t).*t; at alpha = " + num2str(alpha));
+title("exp(-alpha*t).*u(t).*t at alpha = " + num2str(alpha));
+grid on;
+subplot(3,2,6);
+z = (1./(alpha+w*1i)).^2;
+plot(w,abs(z));
+xlabel("w");
+ylabel("|Fourier|")
+title("|Fourier|")
+grid on;
+##### SOURCE END #####
+--></body></html>

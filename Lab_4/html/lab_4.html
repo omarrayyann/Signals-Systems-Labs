@@ -1,0 +1,387 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>lab_4</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-10-09"><meta name="DC.source" content="lab_4.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Question 1: Trasnfer Function</a></li><li><a href="#3">Question 2</a></li><li><a href="#4">Functions</a></li></ul></div><pre class="codeinput">clc; close <span class="string">all</span>; clear;
+set(0,<span class="string">'defaultTextInterpreter'</span>,<span class="string">'latex'</span>);
+
+<span class="comment">% Note: Functions are placed at the end of the file</span>
+
+<span class="comment">% Setting up required functions</span>
+del = @(n)double(n==0);
+</pre><h2 id="2">Question 1: Trasnfer Function</h2><pre class="codeinput">figure;
+N = 20;
+n = [0:N-1];
+impulse = del(n);
+
+<span class="comment">% What is the difference equation?</span>
+<span class="comment">% y(n) = x(n) - 2.5*x(n-1) + y(n-1) - 0.7*y(n-2);</span>
+
+<span class="comment">% Findng h[n] using my own function:</span>
+subplot(3,1,1);
+impulse_response = difference_equation(impulse,N);
+impulse_response_length = (0:length(impulse_response)-1);
+stem(n,impulse_response);
+xlabel(<span class="string">'n'</span>);
+xlim([-1 20]);
+ylabel(<span class="string">'Impulse Response'</span>);
+title(<span class="string">'Impulse Response of the System (using my own function)'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% Findng h[n] using filter function:</span>
+subplot(3,1,2);
+numerator_coefficients = [1,-2.5];
+denomenator_coefficients = [1,-1,0.7];
+impulse_response = filter(numerator_coefficients,denomenator_coefficients,impulse);
+stem(n,impulse_response);
+xlabel(<span class="string">'n'</span>);
+xlim([-1 20]);
+ylabel(<span class="string">'Impulse Response'</span>);
+title(<span class="string">'Impulse Response of the System (using filter function)'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% Does it agree with the one computed using your own program?</span>
+<span class="comment">% Yes it does!</span>
+
+<span class="comment">% Findng h[n] using partial fraction expansion</span>
+subplot(3,1,3);
+numerator_coefficients = [1,-2.5];
+denomenator_coefficients = [1,-1,0.7];
+[r,p,k] = residue(numerator_coefficients,denomenator_coefficients)
+disp(<span class="string">'Residues:'</span>);
+disp(r);
+disp(<span class="string">'Poles:'</span>);
+disp(p);
+impulse_response = r(1)*p(1).^n + r(2)*p(2).^n;
+stem(n, impulse_response);
+xlabel(<span class="string">'n'</span>);
+ylabel(<span class="string">'Impulse Response'</span>);
+title(<span class="string">'Impulse Response of the System (using partial fractions)'</span>);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="lab_4_01.png" alt=""> <h2 id="3">Question 2</h2><pre class="codeinput">a = -0.52;
+b = 0.56;
+L = 0.1;
+step_size = 0.0001
+real_range = [a:step_size:a+L];
+imaginary_range = [b:step_size:b+L];
+[real, imaginary] = meshgrid(real_range, imaginary_range);
+W = complex(real, imaginary);
+
+f = zeros(size(W));
+
+<span class="keyword">for</span> r = 1:length(W)
+    <span class="keyword">for</span> c = 1:length(W(:,r))
+            zn = 0;
+            <span class="keyword">for</span> i = 1:100
+                zn = zn*zn + W(r,c);
+                f(r,c) = i;
+                <span class="keyword">if</span>(abs(zn)&gt;2)
+                    <span class="keyword">break</span>;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+figure1=figure(<span class="string">'Position'</span>, [100, 100, 1024, 1200]);
+
+<span class="comment">% hot color map</span>
+subplot(2,2,1);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,1),hot);
+colorbar;
+xlabel(<span class="string">'Re(z)'</span>);
+ylabel(<span class="string">'Im(z)'</span>);
+title(<span class="string">'Plot of f(w) using "hot" color map'</span>);
+xlim([a, a + L]);
+ylim([b, b + L]);
+
+<span class="comment">% lines color map</span>
+subplot(2,2,2);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,2),lines);
+colorbar;
+xlabel(<span class="string">'Re(z)'</span>);
+ylabel(<span class="string">'Im(z)'</span>);
+title(<span class="string">'Plot of f(w) using "lines" color map'</span>);
+xlim([a, a + L]);
+ylim([b, b + L]);
+
+<span class="comment">% spring color map</span>
+subplot(2,2,3);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,3),spring);
+colorbar;
+xlabel(<span class="string">'Re(z)'</span>);
+ylabel(<span class="string">'Im(z)'</span>);
+title(<span class="string">'Plot of f(w) using "spring" color map'</span>);
+xlim([a, a + L]);
+ylim([b, b + L]);
+
+<span class="comment">% cool color map</span>
+subplot(2,2,4);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,4),cool);
+colorbar;
+xlabel(<span class="string">'Re(z)'</span>);
+ylabel(<span class="string">'Im(z)'</span>);
+title(<span class="string">'Plot of f(w) using "cool" color map'</span>);
+xlim([a, a + L]);
+ylim([b, b + L]);
+</pre><pre class="codeoutput">
+step_size =
+
+   1.0000e-04
+
+</pre><img vspace="5" hspace="5" src="lab_4_02.png" alt=""> <h2 id="4">Functions</h2><pre class="codeinput"><span class="comment">% Differnce Function from Question 1</span>
+<span class="keyword">function</span> y = difference_equation(x,N)
+
+    <span class="comment">% Initialize the output vector y</span>
+    y = zeros(1, N);
+    y(1) = x(1);
+    y(2) = x(2)-2.5*x(1)+y(1);
+    <span class="comment">% Implement the difference equation using a for loop</span>
+    <span class="keyword">for</span> n = 3:N
+        y(n) = x(n) - 2.5*x(n-1) + y(n-1) - 0.7*y(n-2);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+r =
+
+   0.5000 + 1.4907i
+   0.5000 - 1.4907i
+
+
+p =
+
+   0.5000 + 0.6708i
+   0.5000 - 0.6708i
+
+
+k =
+
+     []
+
+Residues:
+   0.5000 + 1.4907i
+   0.5000 - 1.4907i
+
+Poles:
+   0.5000 + 0.6708i
+   0.5000 - 0.6708i
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc; close all; clear;
+set(0,'defaultTextInterpreter','latex');
+
+% Note: Functions are placed at the end of the file
+
+% Setting up required functions
+del = @(n)double(n==0);
+
+%% Question 1: Trasnfer Function
+
+figure;
+N = 20;
+n = [0:N-1];
+impulse = del(n);
+
+% What is the difference equation?
+% y(n) = x(n) - 2.5*x(n-1) + y(n-1) - 0.7*y(n-2);
+
+% Findng h[n] using my own function:
+subplot(3,1,1);
+impulse_response = difference_equation(impulse,N);
+impulse_response_length = (0:length(impulse_response)-1);
+stem(n,impulse_response);
+xlabel('n');
+xlim([-1 20]);
+ylabel('Impulse Response');
+title('Impulse Response of the System (using my own function)');
+grid on;
+
+% Findng h[n] using filter function:
+subplot(3,1,2);
+numerator_coefficients = [1,-2.5];
+denomenator_coefficients = [1,-1,0.7];
+impulse_response = filter(numerator_coefficients,denomenator_coefficients,impulse);
+stem(n,impulse_response);
+xlabel('n');
+xlim([-1 20]);
+ylabel('Impulse Response');
+title('Impulse Response of the System (using filter function)');
+grid on;
+
+% Does it agree with the one computed using your own program?
+% Yes it does!
+
+% Findng h[n] using partial fraction expansion
+subplot(3,1,3);
+numerator_coefficients = [1,-2.5];
+denomenator_coefficients = [1,-1,0.7];
+[r,p,k] = residue(numerator_coefficients,denomenator_coefficients)
+disp('Residues:');
+disp(r);
+disp('Poles:');
+disp(p);
+impulse_response = r(1)*p(1).^n + r(2)*p(2).^n;
+stem(n, impulse_response);
+xlabel('n');
+ylabel('Impulse Response');
+title('Impulse Response of the System (using partial fractions)');
+grid on;
+
+%% Question 2
+
+a = -0.52;
+b = 0.56;
+L = 0.1;    
+step_size = 0.0001
+real_range = [a:step_size:a+L];
+imaginary_range = [b:step_size:b+L];
+[real, imaginary] = meshgrid(real_range, imaginary_range);
+W = complex(real, imaginary);
+
+f = zeros(size(W));
+
+for r = 1:length(W)
+    for c = 1:length(W(:,r))
+            zn = 0;
+            for i = 1:100
+                zn = zn*zn + W(r,c);
+                f(r,c) = i;
+                if(abs(zn)>2)
+                    break;
+                end
+            end
+    end
+end
+
+figure1=figure('Position', [100, 100, 1024, 1200]);
+
+% hot color map
+subplot(2,2,1);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,1),hot);
+colorbar;
+xlabel('Re(z)');
+ylabel('Im(z)');
+title('Plot of f(w) using "hot" color map');
+xlim([a, a + L]);
+ylim([b, b + L]);
+
+% lines color map
+subplot(2,2,2);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,2),lines);
+colorbar;
+xlabel('Re(z)');
+ylabel('Im(z)');
+title('Plot of f(w) using "lines" color map');
+xlim([a, a + L]);
+ylim([b, b + L]);
+
+% spring color map
+subplot(2,2,3);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,3),spring);
+colorbar;
+xlabel('Re(z)');
+ylabel('Im(z)');
+title('Plot of f(w) using "spring" color map');
+xlim([a, a + L]);
+ylim([b, b + L]);
+
+% cool color map
+subplot(2,2,4);
+imagesc(real_range, imaginary_range, f);
+colormap(subplot(2,2,4),cool);
+colorbar;
+xlabel('Re(z)');
+ylabel('Im(z)');
+title('Plot of f(w) using "cool" color map');
+xlim([a, a + L]);
+ylim([b, b + L]);
+
+
+%% Functions
+
+% Differnce Function from Question 1
+function y = difference_equation(x,N)
+
+    % Initialize the output vector y
+    y = zeros(1, N);
+    y(1) = x(1);
+    y(2) = x(2)-2.5*x(1)+y(1);
+    % Implement the difference equation using a for loop
+    for n = 3:N
+        y(n) = x(n) - 2.5*x(n-1) + y(n-1) - 0.7*y(n-2);
+    end
+end
+##### SOURCE END #####
+--></body></html>
